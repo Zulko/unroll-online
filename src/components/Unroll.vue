@@ -4,9 +4,9 @@
   h3 Upload a file
   p
     span(style='margin-right: 1em') Example (Carolina Shout)
-    a(href='/static/carolina_shout.mid' style='margin-right: 1em' title='Download')
+    a(href='/static/million_dollar_baby.mid' style='margin-right: 1em' title='Download')
       el-button(icon='el-icon-download' circle)
-    el-button(icon='el-icon-news' @click="loadExample('/static/carolina_shout.mid')" circle title='Use')
+    el-button(icon='el-icon-news' @click="loadExample('/static/million_dollar_baby.mid')" circle title='Use')
   el-upload(:file-list='midiFile',
             :on-change='parseMidi',
             :multiple='false',
@@ -64,7 +64,7 @@ const MidiConvert = require('midiconvert')
 const Detect = require('tonal-detector')
 const download = require('downloadjs')
 const lilyTemplate = require('../assets/lilyTemplate.txt')
-
+console.log(Vex)
 export default {
   name: 'unroll',
   data () {
@@ -318,7 +318,9 @@ export default {
       function noteGroup2lily (noteGroup) {
         var compositeDuration = lilyCompositeDurations[noteGroup.duration]
         if (compositeDuration) {
-          return noteGroup2lily[compositeDuration[0]] + '~' + noteGroup2lily[compositeDuration[1]]
+          var first = Object.assign({}, noteGroup, {duration: compositeDuration[0]})
+          var second = Object.assign({}, noteGroup, {duration: compositeDuration[1]})
+          return noteGroup2lily(first) + '~' + noteGroup2lily(second)
         }
         var duration = lilydurations[noteGroup.duration]
         var note
@@ -344,25 +346,23 @@ export default {
     }
   },
   mounted () {
-    var vf = new Vex.Flow.Factory({
-      renderer: {elementId: 'staves', width: 500, height: 800}
-    })
-
-    var score = vf.EasyScore()
-    var system = vf.System()
-    var notes = score.notes('C#5/q, B4, A4, G#4, A4', {stem: 'up'})
-    system.addStave({
-      voices: [score.voice(notes)]
-    }).addClef('treble').addTimeSignature('6/4')
-
+    // var vf = new Vex.Flow.Factory({
+    //   renderer: {elementId: 'staves', width: 500, height: 800}
+    // })
+    //
+    // var score = vf.EasyScore()
+    // var system = vf.System()
+    // var notes = score.notes('C#5/q, B4, A4, G#4, A4', {stem: 'up'})
+    // system.addStave({
+    //   voices: [score.voice(notes)]
+    // }).addClef('treble').addTimeSignature('6/4')
     // system.addStave({
     //   voices: [
     //     score.voice(score.notes('C#5/q, B4, A4, G#4', {stem: 'up'})),
     //     score.voice(score.notes('C#4/h, C#4', {stem: 'down'}))
     //   ]
     // }).addClef('bass').addTimeSignature('4/4')
-
-    vf.draw()
+    // vf.draw()
   },
   watch: {
     midiData () {
