@@ -24,6 +24,7 @@
     "vexflow": "^1.2.84",
     "vue": "^2.5.2",
     "vue-chartist": "^2.1.2",
+    "vue-gh-corners": "^2.0.0",
     "vue-resource": "^1.5.1",
     "vue-router": "^3.0.1"
   },

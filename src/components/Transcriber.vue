@@ -1,12 +1,14 @@
 <template lang='pug'>
-.unroll
-  h1 UNROLL
-  h3 Upload a file
+.transcriber
+  h3 1. Provide a MIDI piano roll scan
+  p Example: Million Dollar Baby
   p
-    span(style='margin-right: 1em') Example (Carolina Shout)
-    a(href='/static/million_dollar_baby.mid' style='margin-right: 1em' title='Download')
+    a(href='./static/million_dollar_baby.mid' style='margin-right: 1em' title='Download')
       el-button(icon='el-icon-download' circle)
-    el-button(icon='el-icon-news' @click="loadExample('/static/million_dollar_baby.mid')" circle title='Use')
+    el-button(icon='el-icon-news'
+              @click="loadExample('./static/million_dollar_baby.mid')"
+              title='Use'
+              circle)
   el-upload(:file-list='midiFile',
             :on-change='parseMidi',
             :multiple='false',
@@ -15,11 +17,13 @@
             drag)
     i.el-icon-upload
     .el-upload__text Drop a MIDI file here or <em>click to upload</em>
-  div(v-if='midiName')
-    h2 {{midiName}}
+  .midi-name(v-if='midiName')
+    h3 {{midiName}}
     hr
+
   div(v-if='midiData')
-    h3 Segment
+
+    h3 Full piece, or segment ?
     el-row(style='max-width: 800px; margin: 0 auto;')
       el-col(:span='4')
         div(style='margin-top: 0.5em;') {{seconds2minutes(segment[0])}}
@@ -29,7 +33,7 @@
       el-col(:span='4')
         div(style='margin-top: 0.5em;') {{seconds2minutes(segment[1])}}
   div(v-if='scalePlotData')
-    h3 Separation Note
+    h3 Hands separation Note
     el-select(v-model='separationNote')
       el-option(v-for='sep in separationNotes', :value='sep.midi',
                 :label='sep.name', :key='sep.name')
@@ -39,7 +43,7 @@
     .tempo-plot
       chartist(type='Line', :data='tempoPlotData' , :options='tempoPlotOptions')
   div(v-if='scalePlotData' align='center')
-    h3 Scale
+    h3 Scale (for info only)
     el-input(v-model='selectedScale' style='width: 100px')
     .scale-plot
       chartist(type='Bar', :data='scalePlotData' , :options='scalePlotOptions')
@@ -391,9 +395,19 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1 {
-  font-size: 4em;
+<style lang='scss' scoped>
+
+.transcriber {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 800px;
+  .midi-name h3 {
+    color: grey;
+  }
+  h2 {
+    margin-top: 0;
+    font-family: 'Oswald', sans-serif;
+  }
 }
 
 ul {

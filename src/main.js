@@ -8,6 +8,9 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'chartist/dist/chartist.min.css'
 import chartist from 'vue-chartist'
 import VueResource from 'vue-resource'
+import VueGitHubCorners from 'vue-gh-corners'
+import 'vue-gh-corners/dist/vue-github-corners.css'
+Vue.use(VueGitHubCorners)
 
 Vue.use(VueResource)
 Vue.use(chartist)
